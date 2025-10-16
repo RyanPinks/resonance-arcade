@@ -41,3 +41,12 @@ function handleClick(e) {
 
 cells.forEach(cell => cell.addEventListener('click', handleClick));
 
+document.getElementById('restart').addEventListener('click', () => {
+  board = Array(9).fill(null);
+  currentPlayer = 'X';
+  status.textContent = "Player X's turn";
+  cells.forEach(cell => {
+    cell.textContent = '';
+    cell.addEventListener('click', handleClick);
+  });
+});
