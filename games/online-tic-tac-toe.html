@@ -3,13 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="keywords" content="family, stories, memories, website">
-  <meta name="author" content="Ryan Pinks and Microsoft Copilot">
-  <title>Welcome to Resonance Arcade - Online Tic Tac Toe</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Welcome to Resonance Arcade – Tic Tac Toe</title>
+  <style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    margin-top: 20px;
+    color: #333;
+  }
+
+  .board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .cell {
+    background-color: #fff;
+    border: 2px solid #ccc;
+    font-size: 2em;
+    text-align: center;
+    line-height: 100px;
+    cursor: pointer;
+  }
+
+  .chat {
+    margin-top: 30px;
+    width: 320px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+  }
+  .chat-input {
+    margin-top: 10px;
+    display: flex;
+  }
+
+  .chat-input input {
+    flex: 1;
+    padding: 5px;
+  }
+
+  .chat-input button {
+    padding: 5px 10px;
+  }
+  </style>
 </head>
 <body>
-    <div class="board">
+  <h1>Welcome to Resonance Arcade – Tic Tac Toe</h1>
+
+  <div class="board">
     <div class="cell" data-index="0"></div>
     <div class="cell" data-index="1"></div>
     <div class="cell" data-index="2"></div>
@@ -20,6 +75,37 @@
     <div class="cell" data-index="7"></div>
     <div class="cell" data-index="8"></div>
   </div>
-  <a href="../index.html">Home 🏡</a>
+
+  <div class="chat" id="chat-box">
+    <!-- Messages will appear here -->
+  </div>
+
+  <div class="chat-input">
+    <input type="text" id="chat-message" placeholder="Send a message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    // Placeholder for move and chat logic
+    function sendMessage() {
+      const input = document.getElementById('chat-message');
+      const message = input.value.trim();
+      if (message) {
+        socket.emit('chat', message);
+        input.value = '';
+      }
+    }
+
+    socket.on('chat', (msg) => {
+      const chatBox = document.getElementById('chat-box');
+      const div = document.createElement('div');
+      div.textContent = msg;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+  </script>
 </body>
 </html>
