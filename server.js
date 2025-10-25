@@ -10,6 +10,10 @@ const io = socketIo(server);
 // Serve static files from the public-facing folder
 app.use(express.static(__dirname));
 
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/games/online-tic-tac-toe.html');
+});
+
 let games = {}; // roomId → board state
 
 io.on('connection', (socket) => {
