@@ -8,7 +8,7 @@ const server = http.createServer(app);
 const io = socketIo(server);
 
 // Serve static files from the public-facing folder
-app.use(express.static(__dirname + '/games'));
+app.use(express.static(__dirname));
 
 let games = {}; // roomId → board state
 
