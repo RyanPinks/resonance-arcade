@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -7,14 +6,15 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Serve static files from the public-facing folder
-app.use(express.static(__dirname));
+// Serve static files from the 'games' folder
+app.use(express.static(__dirname + '/games'));
 
+// Default route: serve online-tic-tac-toe.html
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/games/online-tic-tac-toe.html');
 });
 
-let games = {}; // roomId → board state
+let games = {};
 
 io.on('connection', (socket) => {
   console.log('A player connected');
@@ -44,5 +44,7 @@ io.on('connection', (socket) => {
 
 server.listen(3000, () => {
   console.log('Resonance Arcade server is running on http://localhost:3000');
+});
+
 });
 
