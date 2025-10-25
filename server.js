@@ -30,3 +30,6 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3000, () => console.log('Resonance Arcade server running on port 3000'));
+
+app.use(express.static('public'));
+
