@@ -7,9 +7,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-let games = {}; // key: roomId, value: board state
+// Serve static files from the public-facing folder
+app.use(express.static(__dirname + '/games'));
+
+let games = {}; // roomId → board state
 
 io.on('connection', (socket) => {
+  console.log('A player connected');
+
   socket.on('join', (roomId) => {
     socket.join(roomId);
     if (!games[roomId]) {
@@ -27,9 +32,13 @@ io.on('connection', (socket) => {
   socket.on('chat', (msg) => {
     io.emit('chat', msg);
   });
+
+  socket.on('disconnect', () => {
+    console.log('A player disconnected');
+  });
 });
 
-server.listen(3000, () => console.log('Resonance Arcade server running on port 3000'));
-
-app.use(express.static('public'));
+server.listen(3000, () => {
+  console.log('Resonance Arcade server is running on http://localhost:3000');
+});
 
